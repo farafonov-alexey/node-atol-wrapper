@@ -1,5 +1,6 @@
 #include <nan.h>
 #include "libfptr10.h"
+#include "utils.h"
 
 class Fptr10 : public Nan::ObjectWrap {
 public:
@@ -13,6 +14,12 @@ public:
   static NAN_METHOD(Create);
   static NAN_METHOD(Destroy);
   static NAN_METHOD(GetSettings);
+  static NAN_METHOD(SetSettings);
+
+  static NAN_METHOD(Open);
+  static NAN_METHOD(Close);
+
+  static NAN_METHOD(ProcessJson);
 
   static NAN_GETTER(HandleGetters);
   static NAN_SETTER(HandleSetters);

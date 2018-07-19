@@ -19,7 +19,8 @@
       ],
       "sources": [
         "src/index.cc",
-        "src/fptr10.cc"
+        "src/fptr10.cc",
+        "src/utils.cc"
       ],
       "libraries": [ "<(module_root_dir)/src/fptr10.lib"],
       "dependencies" : [ "copy_fptr_dll" ],
