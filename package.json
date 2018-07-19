@@ -1,0 +1,43 @@
+{
+  "name": "node-atol-wrapper",
+  "description": "Node ATOL DTO 10 wrapper",
+  "version": "0.0.1",
+  "main": "bindings.js",
+  "scripts": {
+    "build": "node-gyp build",
+    "install": "node-gyp rebuild",
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "nan": "^2.10.0",
+    "node-pre-gyp": "^0.10.3"
+  },
+  "devDependencies": {},
+  "binary": {
+    "module_name": "node_atol_wrapper",
+    "module_path": "./build/Release/",
+    "host": "https://your_module.s3-us-west-1.amazonaws.com"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "homepage": "https://github.com/farafonov-alexey/node-atol-wrapper",
+  "keywords": [
+    "Node",
+    "ATOL",
+    "DTO 10"
+  ],
+  "author": {
+    "name": "farafonov.alexey",
+    "url": "https://github.com/farafonov-alexey",
+    "email": "farafonov.alexey@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/farafonov-alexey/node-atol-wrapper.git"
+  },
+  "license": "MIT",
+  "os": [
+    "win32"
+  ]
+}

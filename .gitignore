@@ -1,3 +1,7 @@
+# Idea
+.idea
+build/
+
 # Logs
 logs
 *.log
