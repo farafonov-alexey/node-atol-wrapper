@@ -61,11 +61,9 @@ NAN_GETTER(Fptr10::HandleGetters) {
 
 NAN_SETTER(Fptr10::HandleSetters) {
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-
   if(!value->IsNumber()) {
     return Nan::ThrowError(Nan::New("expected value to be a number").ToLocalChecked());
   }
-
   std::string propertyName = std::string(*Nan::Utf8String(property));
   if (propertyName == "x") {
     self->x = value->NumberValue();
@@ -74,7 +72,7 @@ NAN_SETTER(Fptr10::HandleSetters) {
 
 NAN_METHOD(Fptr10::Create) {
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  libfptr_create(&(self->fptr));
+  checkError(self->fptr, libfptr_create(&(self->fptr)));
   info.GetReturnValue().Set(Nan::Undefined());
 }
 
@@ -116,12 +114,7 @@ NAN_METHOD(Fptr10::SetSettings) {
   Nan::JSON NanJSON;
   Nan::MaybeLocal<v8::String> result = NanJSON.Stringify(info[0]->ToObject());
   if (!result.IsEmpty()) {
-    v8::Local<v8::String> strSett = result.ToLocalChecked();
-    Nan::Utf8String utf8Sett(strSett); // take the string arg and convert it to v8::string
-    std::string sSett(*utf8Sett); // take the v8::string convert it to c++ class string
-    std::wstring wSett = s2ws(sSett);
-
-//    printf("sett - %S", &wSett[0]);
+    std::wstring wSett = v8s2ws(result.ToLocalChecked());
     libfptr_set_settings(self->fptr, &wSett[0]);
     info.GetReturnValue().Set(Nan::True());
   } else {
@@ -131,13 +124,14 @@ NAN_METHOD(Fptr10::SetSettings) {
 
 NAN_METHOD(Fptr10::Open){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  libfptr_open(self->fptr);
+  printf("open\n");
+  checkError(self->fptr, libfptr_open(self->fptr));
   info.GetReturnValue().Set(Nan::True());
 }
 
 NAN_METHOD(Fptr10::Close){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  libfptr_close(self->fptr);
+  checkError(self->fptr, libfptr_close(self->fptr));
   info.GetReturnValue().Set(Nan::True());
 }
 
@@ -155,14 +149,10 @@ NAN_METHOD(Fptr10::ProcessJson){
   Nan::JSON NanJSON;
   Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(info[0]->ToObject());
   if (!task.IsEmpty()) {
-      Nan::Utf8String utf8Sett(task.ToLocalChecked()); // take the string arg and convert it to v8::string
-      std::string sSett(*utf8Sett); // take the v8::string convert it to c++ class string
-      std::wstring wSett = s2ws(sSett);
+      std::wstring wSett = v8s2ws(task.ToLocalChecked());
 
       libfptr_set_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &wSett[0]);
-      libfptr_process_json(self->fptr);
-      // TODO: checkErrors;
-
+      checkError(self->fptr, libfptr_process_json(self->fptr));
 
       std::vector<wchar_t> result(128);
       int size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
@@ -183,3 +173,5 @@ NAN_METHOD(Fptr10::ProcessJson){
     info.GetReturnValue().Set(Nan::Undefined());
   }
 }
+
+

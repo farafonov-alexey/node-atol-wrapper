@@ -1,4 +1,3 @@
-#include <nan.h>
 #include "fptr10.h"
 
 NAN_MODULE_INIT(InitModule) {
