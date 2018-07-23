@@ -10,7 +10,7 @@ Node.js обертка для драйвера торгового оборудо
 1. getSettings() - Выгрузка настроек
 
 Возвращает json-объект настроек, который затем можно передать в функцию setSettings
-```json
+```js
 { AccessPassword: '',
   AutoDisableBluetooth: false,
   AutoEnableBluetooth: true,
@@ -37,7 +37,7 @@ Node.js обертка для драйвера торгового оборудо
 1. processJson(task) - Выполнение JSON-задания
 
 Здесь _task_ - json-объект описание задания для ККТ. Например, задание для открытия смены:
-```json
+```js
 {
     type: 'openShift',
     operator: {
