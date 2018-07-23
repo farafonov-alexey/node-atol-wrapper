@@ -124,7 +124,6 @@ NAN_METHOD(Fptr10::SetSettings) {
 
 NAN_METHOD(Fptr10::Open){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  printf("open\n");
   checkError(self->fptr, libfptr_open(self->fptr));
   info.GetReturnValue().Set(Nan::True());
 }
