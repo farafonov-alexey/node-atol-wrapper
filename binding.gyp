@@ -73,11 +73,7 @@
       	}],
         ["OS=='win'", {
       	  "link_settings": {
-      	    "libraries": ["-lfptr10", ],
-      	    "ldflags": [
-      	       "-L<(module_root_dir)/build/Release",
-      	       "-Wl,-rpath,<(module_root_dir)/build/Release"
-      	    ],
+      	    "libraries": ["<(module_root_dir)/build/Release/fptr10.lib", ],
       	  },
       	}]
       ],
