@@ -66,17 +66,17 @@
       	  "link_settings": {
       	    "libraries": ["-lfptr10", ],
       	    "ldflags": [
-      	       "-L<(PRODUCT_DIR)",
-      	       "-Wl,-rpath,<(PRODUCT_DIR)"
+      	       "-L<(module_root_dir)/build/Release",
+      	       "-Wl,-rpath,<(module_root_dir)/build/Release"
       	    ],
       	  },
       	}],
         ["OS=='win'", {
       	  "link_settings": {
-      	    "libraries": ["<(PRODUCT_DIR)/fptr10.lib", ],
+      	    "libraries": ["-lfptr10", ],
       	    "ldflags": [
-      	       "-L<(PRODUCT_DIR)",
-      	       "-Wl,-rpath,<(PRODUCT_DIR)"
+      	       "-L<(module_root_dir)/build/Release",
+      	       "-Wl,-rpath,<(module_root_dir)/build/Release"
       	    ],
       	  },
       	}]

@@ -38,6 +38,7 @@
   },
   "license": "MIT",
   "os": [
-    "win32"
+    "win",
+    "linux"
   ]
 }
