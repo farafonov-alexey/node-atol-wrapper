@@ -14,8 +14,8 @@ std::string ws2s(const std::wstring& wstr)
     return converterX.to_bytes(wstr);
 }
 
-void checkError(libfptr_handle fptr, int res){
-    if(res == 0) return;
+bool checkError(libfptr_handle fptr, int res, std::string &error){
+    if(res == 0) return false;
     int errorCode = libfptr_error_code(fptr);
 
     std::vector<wchar_t> errorDescription(32);
@@ -26,9 +26,10 @@ void checkError(libfptr_handle fptr, int res){
      libfptr_error_description(fptr, &errorDescription[0], errorDescription.size());
     }
     std::string strDescr = ws2s(std::wstring(&errorDescription[0]));
-    std::string strFmt = "Ошибка - "+ std::to_string(errorCode) +" [ " + strDescr + " ]";
+    error = "Ошибка - "+ std::to_string(errorCode) +" [ " + strDescr + " ]";
 
-    return Nan::ThrowError(Nan::New(strFmt).ToLocalChecked());
+//    return Nan::ThrowError(Nan::New(strFmt).ToLocalChecked());
+    return true;
 }
 
 const std::wstring v8s2ws(v8::Local<v8::String> str) {

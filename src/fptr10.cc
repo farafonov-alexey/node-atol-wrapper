@@ -72,7 +72,10 @@ NAN_SETTER(Fptr10::HandleSetters) {
 
 NAN_METHOD(Fptr10::Create) {
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  checkError(self->fptr, libfptr_create(&(self->fptr)));
+  std::string error;
+  if(checkError(self->fptr, libfptr_create(&(self->fptr)), error)){
+    return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+  }
   info.GetReturnValue().Set(Nan::Undefined());
 }
 
@@ -124,13 +127,19 @@ NAN_METHOD(Fptr10::SetSettings) {
 
 NAN_METHOD(Fptr10::Open){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  checkError(self->fptr, libfptr_open(self->fptr));
+  std::string error;
+  if(checkError(self->fptr, libfptr_open(self->fptr), error)){
+    return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+  }
   info.GetReturnValue().Set(Nan::True());
 }
 
 NAN_METHOD(Fptr10::Close){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  checkError(self->fptr, libfptr_close(self->fptr));
+  std::string error;
+  if(checkError(self->fptr, libfptr_close(self->fptr), error)){
+    return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+  }
   info.GetReturnValue().Set(Nan::True());
 }
 
@@ -151,7 +160,10 @@ NAN_METHOD(Fptr10::ProcessJson){
       std::wstring wSett = v8s2ws(task.ToLocalChecked());
 
       libfptr_set_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &wSett[0]);
-      checkError(self->fptr, libfptr_process_json(self->fptr));
+      std::string error;
+      if(checkError(self->fptr, libfptr_process_json(self->fptr), error)){
+         return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+      }
 
       std::vector<wchar_t> result(128);
       int size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
