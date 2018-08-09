@@ -1,4 +1,5 @@
 #include "utils.h"
+//#include <stdio.h>
 
 std::wstring s2ws(const std::string& str)
 {
@@ -27,8 +28,6 @@ bool checkError(libfptr_handle fptr, int res, std::string &error){
     }
     std::string strDescr = ws2s(std::wstring(&errorDescription[0]));
     error = "Ошибка - "+ std::to_string(errorCode) +" [ " + strDescr + " ]";
-
-//    return Nan::ThrowError(Nan::New(strFmt).ToLocalChecked());
     return true;
 }
 

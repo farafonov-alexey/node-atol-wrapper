@@ -158,27 +158,30 @@ NAN_METHOD(Fptr10::ProcessJson){
   Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(info[0]->ToObject());
   if (!task.IsEmpty()) {
       std::wstring wSett = v8s2ws(task.ToLocalChecked());
-
       libfptr_set_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &wSett[0]);
       std::string error;
       if(checkError(self->fptr, libfptr_process_json(self->fptr), error)){
          return Nan::ThrowError(Nan::New(error).ToLocalChecked());
       }
-
-      std::vector<wchar_t> result(128);
+      std::vector<wchar_t> result(256);
       int size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
       if (size > result.size())
       {
         result.resize(size);
         libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
       }
-      std::string strResult = ws2s(std::wstring(&result[0]));
-      Nan::JSON NanJSON;
-      Nan::MaybeLocal<v8::Value> jsResult = NanJSON.Parse(Nan::New(strResult).ToLocalChecked());
-      if (!jsResult.IsEmpty()) {
-        info.GetReturnValue().Set(jsResult.ToLocalChecked());
+      std::wstring wRes = std::wstring(&result[0]);
+      if(!wRes.empty()){
+          std::string strResult = ws2s(wRes);
+          Nan::JSON NanJSON;
+          Nan::MaybeLocal<v8::Value> jsResult = NanJSON.Parse(Nan::New(strResult).ToLocalChecked());
+          if (!jsResult.IsEmpty()) {
+            info.GetReturnValue().Set(jsResult.ToLocalChecked());
+          } else {
+            info.GetReturnValue().Set(Nan::Undefined());
+          }
       } else {
-        info.GetReturnValue().Set(Nan::Undefined());
+          info.GetReturnValue().Set(Nan::Undefined());
       }
   } else {
     info.GetReturnValue().Set(Nan::Undefined());
