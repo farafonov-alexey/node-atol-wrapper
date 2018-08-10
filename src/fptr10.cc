@@ -20,6 +20,7 @@ NAN_MODULE_INIT(Fptr10::Init) {
   Nan::SetPrototypeMethod(ctor, "open", Open);
   Nan::SetPrototypeMethod(ctor, "close", Close);
   Nan::SetPrototypeMethod(ctor, "processJson", ProcessJson);
+  Nan::SetPrototypeMethod(ctor, "fnReport", FnReport);
 
   target->Set(Nan::New("Fptr10").ToLocalChecked(), ctor->GetFunction());
 }
@@ -105,7 +106,7 @@ NAN_METHOD(Fptr10::GetSettings) {
 }
 
 NAN_METHOD(Fptr10::SetSettings) {
-   // expect exactly 1 argument
+  // expect exactly 1 argument
   if(info.Length() != 1) {
     return Nan::ThrowError(Nan::New("Fptr10::SetSettings - expected 1 json argument").ToLocalChecked());
   }
@@ -186,6 +187,26 @@ NAN_METHOD(Fptr10::ProcessJson){
   } else {
     info.GetReturnValue().Set(Nan::Undefined());
   }
+}
+
+NAN_METHOD(Fptr10::FnReport){
+  // expect exactly 1 argument
+  if(info.Length() != 1) {
+    return Nan::ThrowError(Nan::New("Fptr10::FnReport - expected 1 integer argument").ToLocalChecked());
+  }
+  // argument must be object
+  if(!info[0]->IsNumber()) {
+    return Nan::ThrowError(Nan::New("Fptr10::FnReport - expected argument to be number").ToLocalChecked());
+  }
+  Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
+  libfptr_set_param_int(self->fptr, LIBFPTR_PARAM_REPORT_TYPE, LIBFPTR_RT_FN_DOC_BY_NUMBER);
+  uint32_t value = Nan::To<uint32_t>(info[0]).FromJust();
+  libfptr_set_param_int(self->fptr, LIBFPTR_PARAM_DOCUMENT_NUMBER, value);
+  std::string error;
+  if(checkError(self->fptr, libfptr_report(self->fptr), error)){
+     return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+  }
+  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 

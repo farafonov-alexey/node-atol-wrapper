@@ -1,7 +1,7 @@
 {
   "name": "node-atol-wrapper",
   "description": "Node ATOL DTO 10 wrapper",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "bindings.js",
   "scripts": {
     "build": "node-gyp build",
@@ -23,9 +23,10 @@
   },
   "homepage": "https://github.com/farafonov-alexey/node-atol-wrapper",
   "keywords": [
-    "Node",
-    "ATOL",
-    "DTO 10"
+    "Node.js",
+    "wrapper",
+    "NAN",
+    "Атол ДТО 10"
   ],
   "author": {
     "name": "farafonov.alexey",
