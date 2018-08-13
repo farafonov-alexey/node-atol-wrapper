@@ -21,6 +21,7 @@ NAN_MODULE_INIT(Fptr10::Init) {
   Nan::SetPrototypeMethod(ctor, "close", Close);
   Nan::SetPrototypeMethod(ctor, "processJson", ProcessJson);
   Nan::SetPrototypeMethod(ctor, "fnReport", FnReport);
+  Nan::SetPrototypeMethod(ctor, "findLastDocument", FindLastDocument);
 
   target->Set(Nan::New("Fptr10").ToLocalChecked(), ctor->GetFunction());
 }
@@ -209,4 +210,39 @@ NAN_METHOD(Fptr10::FnReport){
   info.GetReturnValue().Set(Nan::Undefined());
 }
 
+NAN_METHOD(Fptr10::FindLastDocument){
+  Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
+  libfptr_set_param_int(self->fptr, LIBFPTR_PARAM_FN_DATA_TYPE, LIBFPTR_FNDT_LAST_DOCUMENT);
+  std::string error;
+  if(checkError(self->fptr, libfptr_fn_query_data(self->fptr), error)){
+     return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+  }
+
+  int documentNumber = libfptr_get_param_int(self->fptr, LIBFPTR_PARAM_DOCUMENT_NUMBER);
+
+  std::vector<wchar_t> str(1024);
+  int size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_FISCAL_SIGN, &str[0], str.size());
+  if (size > str.size())
+  {
+      str.resize(size);
+      libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_FISCAL_SIGN, &str[0], str.size());
+  }
+  std::string fiscalSign = ws2s(std::wstring(&str[0]));
+
+  int year, month, day, hour, minute, second;
+  libfptr_get_param_datetime(self->fptr, LIBFPTR_PARAM_DATE_TIME, &year, &month, &day, &hour, &minute, &second);
+  v8::Local<v8::Object> date = Nan::New<v8::Object>();
+  Nan::Set(date, Nan::New("year").ToLocalChecked(), Nan::New(year));
+  Nan::Set(date, Nan::New("month").ToLocalChecked(), Nan::New(month));
+  Nan::Set(date, Nan::New("day").ToLocalChecked(), Nan::New(day));
+  Nan::Set(date, Nan::New("hour").ToLocalChecked(), Nan::New(hour));
+  Nan::Set(date, Nan::New("minute").ToLocalChecked(), Nan::New(minute));
+  Nan::Set(date, Nan::New("second").ToLocalChecked(), Nan::New(second));
+
+  v8::Local<v8::Object> result = Nan::New<v8::Object>();
+  Nan::Set(result, Nan::New("documentNumber").ToLocalChecked(), Nan::New(documentNumber));
+  Nan::Set(result, Nan::New("fiscalSign").ToLocalChecked(), Nan::New(fiscalSign).ToLocalChecked());
+  Nan::Set(result, Nan::New("date").ToLocalChecked(), date);
+  info.GetReturnValue().Set(result);
+}
 

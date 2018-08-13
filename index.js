@@ -11,7 +11,8 @@ console.log('setSettings', fptr.setSettings(settings));
 console.log('open', fptr.open());
 
 console.log('getData', fptr.processJson({type: 'getDeviceStatus'}));
-console.log('fnReport', fptr.fnReport('1'));
+console.log('findLastDocument', fptr.findLastDocument());
+// console.log('fnReport', fptr.fnReport('1'));
 // console.log('printNonFiscal', fptr.processJson(
 //     {
 //         type: 'nonFiscal',
