@@ -5,14 +5,18 @@ fptr.create();
 const settings = fptr.getSettings();
 console.log('getSettings', settings);
 settings.Port = 0; //ComPort communication
-settings.ComFile = 'COM5'; //ComPort name
+settings.ComFile = 'COM13'; //ComPort name
 settings.BaudRate = 115200;
 console.log('setSettings', fptr.setSettings(settings));
 console.log('open', fptr.open());
 
 console.log('getData', fptr.processJson({type: 'getDeviceStatus'}));
 console.log('findLastDocument', fptr.findLastDocument());
-// console.log('fnReport', fptr.fnReport('1'));
+try {
+    console.log('fnReport', fptr.fnReport(1));
+} catch (e) {
+    console.log('error', e.message, 'code', e.code, 'descr', e.description);
+}
 // console.log('printNonFiscal', fptr.processJson(
 //     {
 //         type: 'nonFiscal',

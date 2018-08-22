@@ -74,9 +74,9 @@ NAN_SETTER(Fptr10::HandleSetters) {
 
 NAN_METHOD(Fptr10::Create) {
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  std::string error;
+  v8::Local<v8::Value> error;
   if(checkError(self->fptr, libfptr_create(&(self->fptr)), error)){
-    return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+     return Nan::ThrowError(error);
   }
   info.GetReturnValue().Set(Nan::Undefined());
 }
@@ -129,18 +129,18 @@ NAN_METHOD(Fptr10::SetSettings) {
 
 NAN_METHOD(Fptr10::Open){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  std::string error;
+  v8::Local<v8::Value> error;
   if(checkError(self->fptr, libfptr_open(self->fptr), error)){
-    return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+     return Nan::ThrowError(error);
   }
   info.GetReturnValue().Set(Nan::True());
 }
 
 NAN_METHOD(Fptr10::Close){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  std::string error;
+  v8::Local<v8::Value> error;
   if(checkError(self->fptr, libfptr_close(self->fptr), error)){
-    return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+     return Nan::ThrowError(error);
   }
   info.GetReturnValue().Set(Nan::True());
 }
@@ -161,9 +161,9 @@ NAN_METHOD(Fptr10::ProcessJson){
   if (!task.IsEmpty()) {
       std::wstring wSett = v8s2ws(task.ToLocalChecked());
       libfptr_set_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &wSett[0]);
-      std::string error;
+      v8::Local<v8::Value> error;
       if(checkError(self->fptr, libfptr_process_json(self->fptr), error)){
-         return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+         return Nan::ThrowError(error);
       }
       std::vector<wchar_t> result(256);
       int size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
@@ -203,9 +203,9 @@ NAN_METHOD(Fptr10::FnReport){
   libfptr_set_param_int(self->fptr, LIBFPTR_PARAM_REPORT_TYPE, LIBFPTR_RT_FN_DOC_BY_NUMBER);
   uint32_t value = Nan::To<uint32_t>(info[0]).FromJust();
   libfptr_set_param_int(self->fptr, LIBFPTR_PARAM_DOCUMENT_NUMBER, value);
-  std::string error;
+  v8::Local<v8::Value> error;
   if(checkError(self->fptr, libfptr_report(self->fptr), error)){
-     return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+     return Nan::ThrowError(error);
   }
   info.GetReturnValue().Set(Nan::Undefined());
 }
@@ -213,9 +213,9 @@ NAN_METHOD(Fptr10::FnReport){
 NAN_METHOD(Fptr10::FindLastDocument){
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
   libfptr_set_param_int(self->fptr, LIBFPTR_PARAM_FN_DATA_TYPE, LIBFPTR_FNDT_LAST_DOCUMENT);
-  std::string error;
+  v8::Local<v8::Value> error;
   if(checkError(self->fptr, libfptr_fn_query_data(self->fptr), error)){
-     return Nan::ThrowError(Nan::New(error).ToLocalChecked());
+     return Nan::ThrowError(error);
   }
 
   int documentNumber = libfptr_get_param_int(self->fptr, LIBFPTR_PARAM_DOCUMENT_NUMBER);

@@ -15,7 +15,7 @@ std::string ws2s(const std::wstring& wstr)
     return converterX.to_bytes(wstr);
 }
 
-bool checkError(libfptr_handle fptr, int res, std::string &error){
+bool checkError(libfptr_handle fptr, int res, v8::Local<v8::Value>& error){
     if(res == 0) return false;
     int errorCode = libfptr_error_code(fptr);
 
@@ -27,7 +27,11 @@ bool checkError(libfptr_handle fptr, int res, std::string &error){
      libfptr_error_description(fptr, &errorDescription[0], errorDescription.size());
     }
     std::string strDescr = ws2s(std::wstring(&errorDescription[0]));
-    error = "Ошибка - "+ std::to_string(errorCode) +" [ " + strDescr + " ]";
+    std::string errorString = "Ошибка - "+ std::to_string(errorCode) +" [ " + strDescr + " ]";
+    v8::Local<v8::Object> errObj = Nan::Error(Nan::New(errorString).ToLocalChecked())->ToObject();
+    Nan::Set(errObj, Nan::New("code").ToLocalChecked(), Nan::New(errorCode));
+    Nan::Set(errObj, Nan::New("description").ToLocalChecked(), Nan::New(strDescr).ToLocalChecked());
+    error = (v8::Local<v8::Value>)errObj;
     return true;
 }
 
