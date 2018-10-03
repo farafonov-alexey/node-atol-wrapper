@@ -12,28 +12,28 @@ console.log('open', fptr.open());
 
 console.log('getData', fptr.processJson({type: 'getDeviceStatus'}));
 console.log('findLastDocument', fptr.findLastDocument());
-try {
-    console.log('fnReport', fptr.fnReport(1));
-} catch (e) {
-    console.log('error', e.message, 'code', e.code, 'descr', e.description);
-}
-// console.log('openShift', fptr.processJson({
-//     type: 'openShift',
-//
-//     operator: {
-//        name: 'Иванов',
-//        vatin: '123654789507'
-//     },
-//
-//     postItems: [
-//         {
-//             type: 'text',
-//             text: 'ОТКРЫТА НОВАЯ СМЕНА',
-//             alignment: 'center',
-//             doubleWidth: true
-//         }
-//     ]
-// }));
+// try {
+//     console.log('fnReport', fptr.fnReport(1));
+// } catch (e) {
+//     console.log('error', e.message, 'code', e.code, 'descr', e.description);
+// }
+console.log('openShift', fptr.processJson({
+    type: 'openShift',
+
+    operator: {
+       name: 'Иванов',
+       vatin: '123654789507'
+    },
+
+    postItems: [
+        {
+            type: 'text',
+            text: 'ОТКРЫТА НОВАЯ СМЕНА',
+            alignment: 'center',
+            doubleWidth: true
+        }
+    ]
+}));
 // console.log('closeShift', fptr.processJson({
 //     type: 'closeShift',
 //     operator: {
