@@ -2,18 +2,18 @@ sudo: true
 
 language: generic
 
-dist: precise
+#dist: precise
 
 git:
   depth: 10
 
-#addons:
-#  apt:
-#    sources:
-#      - ubuntu-toolchain-r-test
-#      - llvm-toolchain-precise-3.5
-#    packages:
-#      - clang-3.5
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.5
+    packages:
+      - clang-3.5
 
 #  --allow-unauthenticated
 
@@ -29,8 +29,8 @@ matrix:
       env: NODE_VERSION="8" # node abi 57
 
 before_install:
-  - sudo apt-get install -y --allow-unauthenticated clang-3.5
   - if [[ $(uname -s) == 'Linux' ]]; then
+    sudo apt-get install -y --allow-unauthenticated clang-3.5
     export CXX="clang++-3.5";
     export CC="clang-3.5";
     export PYTHONPATH=$(pwd)/py-local/lib/python2.7/site-packages;
