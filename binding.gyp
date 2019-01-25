@@ -55,6 +55,7 @@
         "src",
         "<!(node -e \"require('nan')\")"
       ],
+
       "sources": [
         "src/index.cc",
         "src/fptr10.cc",
@@ -75,7 +76,14 @@
       	  "link_settings": {
       	    "libraries": ["<(module_root_dir)/build/Release/fptr10.lib", ],
       	  },
-      	}]
+      	}],
+      	["OS=='darwin'", {
+          "sources!": [
+            "src/index.cc",
+            "src/fptr10.cc",
+            "src/utils.cc"
+          ],
+        }]
       ],
       "dependencies" : [ "copy_fptr_libs" ],
     }
