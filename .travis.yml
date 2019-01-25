@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 
 language: generic
 
@@ -10,8 +10,8 @@ git:
 addons:
   apt:
     sources:
-#      - ubuntu-toolchain-r-test
-#      - llvm-toolchain-precise-3.5
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.5
     packages:
       - clang-3.5
 
@@ -21,17 +21,12 @@ matrix:
     - os: linux
       compiler: clang
       env: NODE_VERSION="8"
-      addons:
-        apt:
-          sources: [ 'ubuntu-toolchain-r-test','llvm-toolchain-precise-3.5', 'gcc-multilib', 'g++-multilib', 'libsqlite3-dev:i386' ]
-          packages: [ 'clang-3.5']
     # OS X
     - os: osx
       compiler: clang
       env: NODE_VERSION="8" # node abi 57
 
 before_install:
-  - export PUBLISHABLE=${PUBLISHABLE:-true}
   - if [[ $(uname -s) == 'Linux' ]]; then
     export CXX="clang++-3.5";
     export CC="clang-3.5";
@@ -46,11 +41,5 @@ install:
   # put node-pre-gyp on path
   - export PATH=./node_modules/.bin/:$PATH
 
-before_script:
-  # get commit message
-  - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
-
 script:
   - ./scripts/build_against_node.sh;
-# disabled for now: need to port to sudo:false
-#- if [[ "${NODE_WEBKIT}" ]]; then ./scripts/build_against_node_webkit.sh; fi;
