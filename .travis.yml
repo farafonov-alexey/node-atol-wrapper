@@ -11,13 +11,10 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-#      - llvm-toolchain-precise-3.8
     packages:
-#      - clang-3.8
-#      - gcc-7
-#      - g++-7
-
-#  --allow-unauthenticated
+      #      - clang-3.8
+      - gcc-6
+      - g++-6
 
 matrix:
   include:
@@ -34,9 +31,9 @@ matrix:
 
 before_install:
   - source ./scripts/install_node.sh ${NODE_VERSION}
-  - if [[ $(uname -s) == 'Linux' ]]; then
-    sudo apt-get install build-essential;
-    fi;
+  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-6 /usr/bin/gcc
+  - sudo unlink /usr/bin/g++ && sudo ln -s /usr/bin/g++-6 /usr/bin/g++
+  - gcc --version
 
 install:
   # put node-pre-gyp on path
