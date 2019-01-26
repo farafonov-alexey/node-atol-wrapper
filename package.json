@@ -4,8 +4,8 @@
   "version": "0.0.10",
   "main": "bindings.js",
   "scripts": {
-    "build": "node-gyp build --verbose",
-    "install": "node-gyp rebuild --verbose",
+    "build": "node-gyp build",
+    "install": "node-gyp rebuild",
     "start": "node ./index.js"
   },
   "dependencies": {
