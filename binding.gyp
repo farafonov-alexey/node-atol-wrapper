@@ -45,7 +45,7 @@
                     }]
                  ]
                }],
-               ["OS=='darwin'", {
+               ["OS=='mac'", {
                   'files': [
                     '<(module_root_dir)/src/linux-x64/libfptr10.so',
                   ],
