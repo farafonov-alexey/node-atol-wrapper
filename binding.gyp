@@ -44,7 +44,10 @@
                       ],
                     }]
                  ]
-               }]
+               }],
+               ["OS=='mac'", {
+                  'files': [],
+               }],
              ],
           }
        ]
@@ -60,7 +63,6 @@
         "src/fptr10.cc",
         "src/utils.cc"
       ],
-
       "conditions":[
       	["OS=='linux'", {
       	  "link_settings": {
@@ -75,7 +77,14 @@
       	  "link_settings": {
       	    "libraries": ["<(module_root_dir)/build/Release/fptr10.lib", ],
       	  },
-      	}]
+      	}],
+      	["OS=='mac'", {
+          "sources!": [
+            "src/index.cc",
+            "src/fptr10.cc",
+            "src/utils.cc"
+          ],
+        }]
       ],
       "dependencies" : [ "copy_fptr_libs" ],
     }

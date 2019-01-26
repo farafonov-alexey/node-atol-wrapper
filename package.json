@@ -37,9 +37,5 @@
     "type": "git",
     "url": "git://github.com/farafonov-alexey/node-atol-wrapper.git"
   },
-  "license": "MIT",
-  "os": [
-    "win32",
-    "linux"
-  ]
+  "license": "MIT"
 }
