@@ -11,9 +11,9 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.5
+      - llvm-toolchain-precise-3.8
     packages:
-      - clang-3.5
+      - clang-3.8
 
 #  --allow-unauthenticated
 
@@ -26,13 +26,13 @@ matrix:
     # OS X
     - os: osx
       compiler: clang
-      env: NODE_VERSION="8" # node abi 57
+      env: 
+        - NODE_VERSION="8" # node abi 57
+        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
 
 before_install:
   - if [[ $(uname -s) == 'Linux' ]]; then
-    sudo apt-get install -y --allow-unauthenticated clang-3.5
-    export CXX="clang++-3.5";
-    export CC="clang-3.5";
+    eval "${MATRIX_EVAL}"
     export PYTHONPATH=$(pwd)/py-local/lib/python2.7/site-packages;
     else
     export PYTHONPATH=$(pwd)/py-local/lib/python/site-packages;
