@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/farafonov-alexey/node-atol-wrapper.svg?branch=master)](https://travis-ci.com/farafonov-alexey/node-atol-wrapper)
+
 Название
 =========
 Node.js обертка для драйвера торгового оборудования (ДТО) версии 10 от компании [АТОЛ](https://www.atol.ru/)
