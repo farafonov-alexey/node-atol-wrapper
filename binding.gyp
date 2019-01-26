@@ -44,12 +44,7 @@
                       ],
                     }]
                  ]
-               }],
-               ["OS=='mac'", {
-                  'files': [
-                    '<(module_root_dir)/src/linux-x64/libfptr10.so',
-                  ],
-               }],
+               }]
              ],
           }
        ]
@@ -80,7 +75,7 @@
       	    "libraries": ["<(module_root_dir)/build/Release/fptr10.lib", ],
       	  },
       	}],
-      	["OS=='darwin'", {
+      	["OS=='mac'", {
           "sources!": [
             "src/index.cc",
             "src/fptr10.cc",
