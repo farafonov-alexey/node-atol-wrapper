@@ -44,7 +44,10 @@
                       ],
                     }]
                  ]
-               }]
+               }],
+               ["OS=='mac'", {
+                  'files': [],
+               }],
              ],
           }
        ]
@@ -81,9 +84,6 @@
             "src/fptr10.cc",
             "src/utils.cc"
           ],
-          "dependencies!": [
-            "copy_fptr_libs"
-          ]
         }]
       ],
       "dependencies" : [ "copy_fptr_libs" ],
