@@ -31,8 +31,10 @@ matrix:
 
 before_install:
   - source ./scripts/install_node.sh ${NODE_VERSION}
-  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-6 /usr/bin/gcc
-  - sudo unlink /usr/bin/g++ && sudo ln -s /usr/bin/g++-6 /usr/bin/g++
+  - if [[ $(uname -s) == 'Linux' ]]; then
+      sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-6 /usr/bin/gcc;
+      sudo unlink /usr/bin/g++ && sudo ln -s /usr/bin/g++-6 /usr/bin/g++;
+    fi;
   - gcc --version
 
 install:
