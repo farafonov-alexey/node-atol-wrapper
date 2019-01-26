@@ -4,4 +4,4 @@ source ~/.nvm/nvm.sh
 #set -e -u
 
 echo "build test"
-npm install --build-from-source --clang=1
+npm install --build-from-source

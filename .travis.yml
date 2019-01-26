@@ -11,9 +11,11 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.8
+#      - llvm-toolchain-precise-3.8
     packages:
-      - clang-3.8
+#      - clang-3.8
+#      - gcc-7
+#      - g++-7
 
 #  --allow-unauthenticated
 
@@ -21,24 +23,20 @@ matrix:
   include:
     # Linux
     - os: linux
-      compiler: clang
+      compiler: gcc
       env: NODE_VERSION="8"
     # OS X
     - os: osx
-      compiler: clang
+      compiler: gcc
       env: 
         - NODE_VERSION="8" # node abi 57
-        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
+#        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
 
 before_install:
-  - if [[ $(uname -s) == 'Linux' ]]; then
-    eval "${MATRIX_EVAL}"
-    export PYTHONPATH=$(pwd)/py-local/lib/python2.7/site-packages;
-    else
-    export PYTHONPATH=$(pwd)/py-local/lib/python/site-packages;
-    fi;
-#  - scripts/validate_tag.sh
   - source ./scripts/install_node.sh ${NODE_VERSION}
+  - if [[ $(uname -s) == 'Linux' ]]; then
+    sudo apt-get install build-essential;
+    fi;
 
 install:
   # put node-pre-gyp on path

@@ -44,7 +44,12 @@
                       ],
                     }]
                  ]
-               }]
+               }],
+               ["OS=='darwin'", {
+                  'files': [
+                    '<(module_root_dir)/src/linux-x64/libfptr10.so',
+                  ],
+               }],
              ],
           }
        ]
@@ -55,13 +60,11 @@
         "src",
         "<!(node -e \"require('nan')\")"
       ],
-
       "sources": [
         "src/index.cc",
         "src/fptr10.cc",
         "src/utils.cc"
       ],
-
       "conditions":[
       	["OS=='linux'", {
       	  "link_settings": {
@@ -83,6 +86,9 @@
             "src/fptr10.cc",
             "src/utils.cc"
           ],
+          "dependencies!": [
+            "copy_fptr_libs"
+          ]
         }]
       ],
       "dependencies" : [ "copy_fptr_libs" ],
