@@ -16,12 +16,14 @@
                    ["arch=='ia32'", {
                      'files': [
                        '<(module_root_dir)/src/win-x86/fptr10.dll',
+                       '<(module_root_dir)/src/win-x86/msvcp140.dll',
                        '<(module_root_dir)/src/win-x86/fptr10.lib',
                      ],
                    }],
                    ["arch=='x64'", {
                      'files': [
                        '<(module_root_dir)/src/win-x64/fptr10.dll',
+                       '<(module_root_dir)/src/win-x64/msvcp140.dll',
                        '<(module_root_dir)/src/win-x64/fptr10.lib',
                      ],
                    }]
