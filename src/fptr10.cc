@@ -12,8 +12,8 @@ NAN_MODULE_INIT(Fptr10::Init) {
   // link our getters and setter to the object property
   Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("x").ToLocalChecked(), Fptr10::HandleGetters, Fptr10::HandleSetters);
 
-  Nan::SetPrototypeMethod(ctor, "test", Test);
   Nan::SetPrototypeMethod(ctor, "create", Create);
+  Nan::SetPrototypeMethod(ctor, "isOpened", IsOpened);
   Nan::SetPrototypeMethod(ctor, "destroy", Destroy);
   Nan::SetPrototypeMethod(ctor, "getSettings", GetSettings);
   Nan::SetPrototypeMethod(ctor, "setSettings", SetSettings);
@@ -36,18 +36,8 @@ NAN_METHOD(Fptr10::New) {
   Fptr10* fptr = new Fptr10();
   fptr->Wrap(info.Holder());
 
-  // initialize it's values
-  fptr->x = Nan::New(123.0) -> NumberValue();
-
   // return the wrapped javascript instance
   info.GetReturnValue().Set(info.Holder());
-}
-
-NAN_METHOD(Fptr10::Test) {
-  // unwrap
-  Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
-  self->x = self->x + 1.0;
-  info.GetReturnValue().Set(Nan::New(self->x));
 }
 
 NAN_GETTER(Fptr10::HandleGetters) {
@@ -134,6 +124,12 @@ NAN_METHOD(Fptr10::Open){
      return Nan::ThrowError(error);
   }
   info.GetReturnValue().Set(Nan::True());
+}
+
+NAN_METHOD(Fptr10::IsOpened) {
+  Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
+  bool isOpened = libfptr_is_opened(self->fptr) != 0;
+  info.GetReturnValue().Set(Nan::New(isOpened));
 }
 
 NAN_METHOD(Fptr10::Close){

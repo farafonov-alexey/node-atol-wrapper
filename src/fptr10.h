@@ -9,7 +9,8 @@ public:
 
   static NAN_MODULE_INIT(Init);
   static NAN_METHOD(New);
-  static NAN_METHOD(Test);
+
+  static NAN_METHOD(IsOpened);
 
   static NAN_METHOD(Create);
   static NAN_METHOD(Destroy);
