@@ -110,10 +110,13 @@ NAN_METHOD(Fptr10::SetSettings) {
   Nan::MaybeLocal<v8::String> result = NanJSON.Stringify(info[0]->ToObject());
   if (!result.IsEmpty()) {
     std::wstring wSett = v8s2ws(result.ToLocalChecked());
-    libfptr_set_settings(self->fptr, &wSett[0]);
+    v8::Local<v8::Value> error;
+    if(checkError(self->fptr, libfptr_set_settings(self->fptr, &wSett[0]), error)){
+      return Nan::ThrowError(error);
+    }
     info.GetReturnValue().Set(Nan::True());
   } else {
-    info.GetReturnValue().Set(Nan::False());
+    return Nan::ThrowError(Nan::New("Fptr10::SetSettings - expected argument to be non empty object").ToLocalChecked());
   }
 }
 
@@ -241,4 +244,3 @@ NAN_METHOD(Fptr10::FindLastDocument){
   Nan::Set(result, Nan::New("date").ToLocalChecked(), date);
   info.GetReturnValue().Set(result);
 }
-
