@@ -48,7 +48,8 @@
       "sources": [
         "src/index.cc",
         "src/fptr10.cc",
-        "src/utils.cc"
+        "src/utils.cc",
+        "src/JsonAsyncWorker.cc"
       ],
       "conditions":[
       	["OS=='linux'", {

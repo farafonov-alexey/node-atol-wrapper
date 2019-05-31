@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "fptr10.h"
+#include "utils.h"
+#include "libfptr10.h"
 
 Nan::Persistent<v8::FunctionTemplate> Fptr10::constructor;
 
@@ -20,6 +22,7 @@ NAN_MODULE_INIT(Fptr10::Init) {
   Nan::SetPrototypeMethod(ctor, "open", Open);
   Nan::SetPrototypeMethod(ctor, "close", Close);
   Nan::SetPrototypeMethod(ctor, "processJson", ProcessJson);
+  Nan::SetPrototypeMethod(ctor, "processJsonSync", ProcessJsonSync);
   Nan::SetPrototypeMethod(ctor, "fnReport", FnReport);
   Nan::SetPrototypeMethod(ctor, "findLastDocument", FindLastDocument);
 
@@ -144,14 +147,14 @@ NAN_METHOD(Fptr10::Close){
   info.GetReturnValue().Set(Nan::True());
 }
 
-NAN_METHOD(Fptr10::ProcessJson){
+NAN_METHOD(Fptr10::ProcessJsonSync){
    // expect exactly 1 argument
   if(info.Length() != 1) {
-    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 1 json argument").ToLocalChecked());
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonSync - expected 1 json argument").ToLocalChecked());
   }
   // argument must be object
   if(!info[0]->IsObject()) {
-    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected argument to be object").ToLocalChecked());
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonSync - expected argument to be object").ToLocalChecked());
   }
 
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
@@ -187,6 +190,41 @@ NAN_METHOD(Fptr10::ProcessJson){
   } else {
     info.GetReturnValue().Set(Nan::Undefined());
   }
+}
+
+NAN_METHOD(Fptr10::ProcessJson){
+   // expect exactly 1 argument
+  if(info.Length() != 2) {
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 2 arguments - json and callback function").ToLocalChecked());
+  }
+  // argument must be object
+  if(!info[0]->IsObject()) {
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 1st argument to be object").ToLocalChecked());
+  }
+  // argument must be function
+  if(!info[1]->IsFunction()) {
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 2nd argument to be function").ToLocalChecked());
+  }
+
+  Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
+  Nan::JSON NanJSON;
+  Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(info[0]->ToObject());
+
+  JsonAsyncWorker* newWorker = new JsonAsyncWorker(
+      self,
+      v8s2ws(task.ToLocalChecked()),
+      new Nan::Callback(info[1].As<v8::Function>()),
+      Fptr10::workerFinished
+    );
+
+  if (self->jsonAsyncTaskIsRunning) {
+    self->taskQue.push_back(newWorker);
+  } else {
+    self->jsonAsyncTaskIsRunning = true;
+    Nan::AsyncQueueWorker(newWorker);
+  }
+
+  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 NAN_METHOD(Fptr10::FnReport){
@@ -243,4 +281,14 @@ NAN_METHOD(Fptr10::FindLastDocument){
   Nan::Set(result, Nan::New("fiscalSign").ToLocalChecked(), Nan::New(fiscalSign).ToLocalChecked());
   Nan::Set(result, Nan::New("date").ToLocalChecked(), date);
   info.GetReturnValue().Set(result);
+}
+
+void Fptr10::workerFinished(Fptr10* self) {
+  if (self->taskQue.empty()) {
+    self->jsonAsyncTaskIsRunning = false;
+  } else {
+    JsonAsyncWorker* nextWorker = self->taskQue.front();
+    self->taskQue.pop_front();
+    Nan::AsyncQueueWorker(nextWorker);
+  }
 }
