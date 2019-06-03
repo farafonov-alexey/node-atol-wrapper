@@ -35,7 +35,7 @@ console.log('findLastDocument', fptr.findLastDocument());
 // } catch (e) {
 //     console.log('error', e.message, 'code', e.code, 'descr', e.description);
 // }
-// fptr.processJson({
+// fptr.processJsonAsync({
 //     type: 'openShift',
 //
 //     operator: {
@@ -59,7 +59,7 @@ console.log('findLastDocument', fptr.findLastDocument());
 // });
 
 
-fptr.processJson({
+fptr.processJsonAsync({
     type: 'closeShift',
     operator: {
         name: 'Иванов',

@@ -28,7 +28,7 @@ public:
   static NAN_METHOD(Open);
   static NAN_METHOD(Close);
 
-  static NAN_METHOD(ProcessJsonSync);
+  static NAN_METHOD(ProcessJsonAsync);
   static NAN_METHOD(ProcessJson);
   static NAN_METHOD(FnReport);
   static NAN_METHOD(FindLastDocument);

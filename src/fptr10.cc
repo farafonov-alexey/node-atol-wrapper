@@ -22,7 +22,7 @@ NAN_MODULE_INIT(Fptr10::Init) {
   Nan::SetPrototypeMethod(ctor, "open", Open);
   Nan::SetPrototypeMethod(ctor, "close", Close);
   Nan::SetPrototypeMethod(ctor, "processJson", ProcessJson);
-  Nan::SetPrototypeMethod(ctor, "processJsonSync", ProcessJsonSync);
+  Nan::SetPrototypeMethod(ctor, "processJsonAsync", ProcessJsonAsync);
   Nan::SetPrototypeMethod(ctor, "fnReport", FnReport);
   Nan::SetPrototypeMethod(ctor, "findLastDocument", FindLastDocument);
 
@@ -147,14 +147,14 @@ NAN_METHOD(Fptr10::Close){
   info.GetReturnValue().Set(Nan::True());
 }
 
-NAN_METHOD(Fptr10::ProcessJsonSync){
+NAN_METHOD(Fptr10::ProcessJson){
    // expect exactly 1 argument
   if(info.Length() != 1) {
     return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonSync - expected 1 json argument").ToLocalChecked());
   }
   // argument must be object
   if(!info[0]->IsObject()) {
-    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonSync - expected argument to be object").ToLocalChecked());
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected argument to be object").ToLocalChecked());
   }
 
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
@@ -192,18 +192,18 @@ NAN_METHOD(Fptr10::ProcessJsonSync){
   }
 }
 
-NAN_METHOD(Fptr10::ProcessJson){
+NAN_METHOD(Fptr10::ProcessJsonAsync){
    // expect exactly 1 argument
   if(info.Length() != 2) {
-    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 2 arguments - json and callback function").ToLocalChecked());
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonAsync - expected 2 arguments - json and callback function").ToLocalChecked());
   }
   // argument must be object
   if(!info[0]->IsObject()) {
-    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 1st argument to be object").ToLocalChecked());
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonAsync - expected 1st argument to be object").ToLocalChecked());
   }
   // argument must be function
   if(!info[1]->IsFunction()) {
-    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 2nd argument to be function").ToLocalChecked());
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonAsync - expected 2nd argument to be function").ToLocalChecked());
   }
 
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
