@@ -15,9 +15,8 @@ JsonAsyncWorker::JsonAsyncWorker(Fptr10* fptr10, std::wstring task, Nan::Callbac
       if (!this->task.empty()) {
           libfptr_set_param_str(this->fptr10->fptr, LIBFPTR_PARAM_JSON_DATA, &this->task[0]);
           v8::Local<v8::Value> error;
-          int errorCode;
           std::string errorDescription;
-          if(checkErrorString(this->fptr10->fptr, libfptr_process_json(this->fptr10->fptr), errorCode, errorDescription)){
+          if(checkErrorString(this->fptr10->fptr, libfptr_process_json(this->fptr10->fptr), this->errorCode, errorDescription)){
             this->SetErrorMessage(errorDescription.c_str());
             return;
           }
