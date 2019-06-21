@@ -210,7 +210,7 @@ NAN_METHOD(Fptr10::ProcessJsonAsync){
   Nan::JSON NanJSON;
   Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(info[0]->ToObject());
 
-  JsonAsyncWorker* newWorker = new JsonAsyncWorker(
+  JsonWorker* newWorker = new JsonWorker(
       self,
       v8s2ws(task.ToLocalChecked()),
       new Nan::Callback(info[1].As<v8::Function>()),
@@ -218,11 +218,17 @@ NAN_METHOD(Fptr10::ProcessJsonAsync){
     );
 
   if (self->jsonAsyncTaskIsRunning) {
-    self->taskQue.push_back(newWorker);
+    self->taskQueue.push_back(newWorker);
   } else {
     self->jsonAsyncTaskIsRunning = true;
     Nan::AsyncQueueWorker(newWorker);
   }
+
+//  Nan::AsyncQueueWorker(new JsonWorker(
+//    self,
+//    v8s2ws(task.ToLocalChecked()),
+//    new Nan::Callback(info[1].As<v8::Function>())
+//  ));
 
   info.GetReturnValue().Set(Nan::Undefined());
 }
@@ -284,11 +290,11 @@ NAN_METHOD(Fptr10::FindLastDocument){
 }
 
 void Fptr10::workerFinished(Fptr10* self) {
-  if (self->taskQue.empty()) {
+  if (self->taskQueue.empty()) {
     self->jsonAsyncTaskIsRunning = false;
   } else {
-    JsonAsyncWorker* nextWorker = self->taskQue.front();
-    self->taskQue.pop_front();
+    JsonWorker* nextWorker = self->taskQueue.front();
+    self->taskQueue.pop_front();
     Nan::AsyncQueueWorker(nextWorker);
   }
 }

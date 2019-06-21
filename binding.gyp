@@ -30,7 +30,22 @@
                  ]
                }],
                ["OS=='linux'",{
-                 'files': [],
+                 'conditions':[
+                    ["arch=='ia32'", {
+                      'files': [
+                        '<(module_root_dir)/src/linux-x86/libfptr10.so',
+                        '<(module_root_dir)/src/linux-x86/libudev.so.0',
+                        '<(module_root_dir)/src/linux-x86/libusb-1.0.so.0',
+                      ],
+                    }],
+                    ["arch=='x64'", {
+                      'files': [
+                        '<(module_root_dir)/src/linux-x64/libfptr10.so',
+                        '<(module_root_dir)/src/linux-x64/libudev.so.0',
+                        '<(module_root_dir)/src/linux-x64/libusb-1.0.so.0',
+                      ],
+                    }]
+                 ]
                }],
                ["OS=='mac'", {
                   'files': [],
@@ -49,7 +64,7 @@
         "src/index.cc",
         "src/fptr10.cc",
         "src/utils.cc",
-        "src/JsonAsyncWorker.cc"
+        "src/json_worker.cc"
       ],
       "conditions":[
       	["OS=='linux'", {
@@ -70,7 +85,8 @@
           "sources!": [
             "src/index.cc",
             "src/fptr10.cc",
-            "src/utils.cc"
+            "src/utils.cc",
+            "src/json_worker.cc"
           ],
         }]
       ],

@@ -3,17 +3,17 @@
 
 #include <nan.h>
 #include <vector>
-#include "JsonAsyncWorker.h"
+#include "json_worker.h"
 #include "libfptr10.h"
 
-class JsonAsyncWorker;
+class JsonWorker;
 
 class Fptr10 : public Nan::ObjectWrap {
 public:
   libfptr_handle fptr;
   double x;
   bool jsonAsyncTaskIsRunning = false;
-  std::deque<JsonAsyncWorker*> taskQue;
+  std::deque<JsonWorker*> taskQueue;
 
   static NAN_MODULE_INIT(Init);
   static NAN_METHOD(New);
