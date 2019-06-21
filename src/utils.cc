@@ -1,5 +1,4 @@
 #include "utils.h"
-//#include <stdio.h>
 
 std::wstring s2ws(const std::string& str)
 {
@@ -15,9 +14,9 @@ std::string ws2s(const std::wstring& wstr)
     return converterX.to_bytes(wstr);
 }
 
-bool checkError(libfptr_handle fptr, int res, v8::Local<v8::Value>& error){
+bool checkErrorString(libfptr_handle fptr, int res, int &errorCode, std::string &errorDescr) {
     if(res == 0) return false;
-    int errorCode = libfptr_error_code(fptr);
+    errorCode = libfptr_error_code(fptr);
 
     std::vector<wchar_t> errorDescription(32);
     int size = libfptr_error_description(fptr, &errorDescription[0], errorDescription.size());
@@ -26,12 +25,28 @@ bool checkError(libfptr_handle fptr, int res, v8::Local<v8::Value>& error){
      errorDescription.resize(size);
      libfptr_error_description(fptr, &errorDescription[0], errorDescription.size());
     }
-    std::string strDescr = ws2s(std::wstring(&errorDescription[0]));
-    std::string errorString = "Ошибка - "+ std::to_string(errorCode) +" [ " + strDescr + " ]";
+    errorDescr = ws2s(std::wstring(&errorDescription[0]));
+
+    return true;
+}
+
+v8::Local<v8::Value> errorStringToErrorObject(int errorCode, const std::string& errorDescription) {
+    std::string errorString = "Error "+ std::to_string(errorCode) +" [ " + errorDescription + " ]";
     v8::Local<v8::Object> errObj = Nan::Error(Nan::New(errorString).ToLocalChecked())->ToObject();
     Nan::Set(errObj, Nan::New("code").ToLocalChecked(), Nan::New(errorCode));
-    Nan::Set(errObj, Nan::New("description").ToLocalChecked(), Nan::New(strDescr).ToLocalChecked());
-    error = (v8::Local<v8::Value>)errObj;
+    Nan::Set(errObj, Nan::New("description").ToLocalChecked(), Nan::New(errorDescription).ToLocalChecked());
+    return (v8::Local<v8::Value>)errObj;
+}
+
+bool checkError(libfptr_handle fptr, int res, v8::Local<v8::Value>& error){
+    int errorCode;
+    std::string errorDescription;
+
+    if (!checkErrorString(fptr, res, errorCode, errorDescription)) {
+      return false;
+    }
+
+    error = errorStringToErrorObject(errorCode, errorDescription);
     return true;
 }
 

@@ -14,6 +14,7 @@ console.log('open', fptr.open());
 console.log('isOpened', fptr.isOpened());
 console.log('getData', fptr.processJson({type: 'getDeviceStatus'}));
 console.log('findLastDocument', fptr.findLastDocument());
+
 // try {
 //     console.log('fnReport', fptr.fnReport(1));
 // } catch (e) {
@@ -43,5 +44,26 @@ console.log('findLastDocument', fptr.findLastDocument());
 //         vatin: '123654789507'
 //     }
 // }));
-console.log('close', fptr.close());
-fptr.destroy();
+
+fptr.processJsonAsync({
+    type: 'reportX',
+    operator: {
+        name: 'Иванов',
+        vatin: '123654789507'
+    }
+}, (err, result) => {
+    if (err) {
+        throw err;
+    } else {
+        console.log('reportX', result);
+        fptr.processJsonAsync({type: 'getDeviceStatus'}, (err, result) => {
+            if(err){
+                throw err;
+            } else {
+                console.log('getDeviceStatus', result);
+                console.log('close', fptr.close());
+            }
+        })
+    }
+});
+

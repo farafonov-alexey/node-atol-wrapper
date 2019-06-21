@@ -63,7 +63,8 @@
       "sources": [
         "src/index.cc",
         "src/fptr10.cc",
-        "src/utils.cc"
+        "src/utils.cc",
+        "src/json_worker.cc"
       ],
       "conditions":[
       	["OS=='linux'", {
@@ -84,7 +85,8 @@
           "sources!": [
             "src/index.cc",
             "src/fptr10.cc",
-            "src/utils.cc"
+            "src/utils.cc",
+            "src/json_worker.cc"
           ],
         }]
       ],

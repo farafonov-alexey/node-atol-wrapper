@@ -1,11 +1,19 @@
+#ifndef INCLUDE_Fptr10
+#define INCLUDE_Fptr10
+
 #include <nan.h>
+#include <vector>
+#include "json_worker.h"
 #include "libfptr10.h"
-#include "utils.h"
+
+class JsonWorker;
 
 class Fptr10 : public Nan::ObjectWrap {
 public:
   libfptr_handle fptr;
   double x;
+  bool jsonAsyncTaskIsRunning = false;
+  std::deque<JsonWorker*> taskQueue;
 
   static NAN_MODULE_INIT(Init);
   static NAN_METHOD(New);
@@ -20,6 +28,7 @@ public:
   static NAN_METHOD(Open);
   static NAN_METHOD(Close);
 
+  static NAN_METHOD(ProcessJsonAsync);
   static NAN_METHOD(ProcessJson);
   static NAN_METHOD(FnReport);
   static NAN_METHOD(FindLastDocument);
@@ -28,4 +37,7 @@ public:
   static NAN_SETTER(HandleSetters);
 
   static Nan::Persistent<v8::FunctionTemplate> constructor;
+  static void workerFinished(Fptr10* self);
 };
+
+#endif

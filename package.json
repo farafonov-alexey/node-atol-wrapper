@@ -1,7 +1,7 @@
 {
   "name": "node-atol-wrapper",
   "description": "Node ATOL DTO 10 wrapper",
-  "version": "0.0.13",
+  "version": "0.0.15",
   "main": "bindings.js",
   "scripts": {
     "build": "node-gyp build",
@@ -33,6 +33,9 @@
     "url": "https://github.com/farafonov-alexey",
     "email": "farafonov.alexey@gmail.com"
   },
+  "contributors": [
+    "maxvgi https://github.com/maxvgi"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/farafonov-alexey/node-atol-wrapper.git"

@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "fptr10.h"
+#include "utils.h"
+#include "libfptr10.h"
 
 Nan::Persistent<v8::FunctionTemplate> Fptr10::constructor;
 
@@ -20,6 +22,7 @@ NAN_MODULE_INIT(Fptr10::Init) {
   Nan::SetPrototypeMethod(ctor, "open", Open);
   Nan::SetPrototypeMethod(ctor, "close", Close);
   Nan::SetPrototypeMethod(ctor, "processJson", ProcessJson);
+  Nan::SetPrototypeMethod(ctor, "processJsonAsync", ProcessJsonAsync);
   Nan::SetPrototypeMethod(ctor, "fnReport", FnReport);
   Nan::SetPrototypeMethod(ctor, "findLastDocument", FindLastDocument);
 
@@ -110,10 +113,13 @@ NAN_METHOD(Fptr10::SetSettings) {
   Nan::MaybeLocal<v8::String> result = NanJSON.Stringify(info[0]->ToObject());
   if (!result.IsEmpty()) {
     std::wstring wSett = v8s2ws(result.ToLocalChecked());
-    libfptr_set_settings(self->fptr, &wSett[0]);
+    v8::Local<v8::Value> error;
+    if(checkError(self->fptr, libfptr_set_settings(self->fptr, &wSett[0]), error)){
+      return Nan::ThrowError(error);
+    }
     info.GetReturnValue().Set(Nan::True());
   } else {
-    info.GetReturnValue().Set(Nan::False());
+    return Nan::ThrowError(Nan::New("Fptr10::SetSettings - expected argument to be non empty object").ToLocalChecked());
   }
 }
 
@@ -144,7 +150,7 @@ NAN_METHOD(Fptr10::Close){
 NAN_METHOD(Fptr10::ProcessJson){
    // expect exactly 1 argument
   if(info.Length() != 1) {
-    return Nan::ThrowError(Nan::New("Fptr10::ProcessJson - expected 1 json argument").ToLocalChecked());
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonSync - expected 1 json argument").ToLocalChecked());
   }
   // argument must be object
   if(!info[0]->IsObject()) {
@@ -184,6 +190,47 @@ NAN_METHOD(Fptr10::ProcessJson){
   } else {
     info.GetReturnValue().Set(Nan::Undefined());
   }
+}
+
+NAN_METHOD(Fptr10::ProcessJsonAsync){
+   // expect exactly 1 argument
+  if(info.Length() != 2) {
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonAsync - expected 2 arguments - json and callback function").ToLocalChecked());
+  }
+  // argument must be object
+  if(!info[0]->IsObject()) {
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonAsync - expected 1st argument to be object").ToLocalChecked());
+  }
+  // argument must be function
+  if(!info[1]->IsFunction()) {
+    return Nan::ThrowError(Nan::New("Fptr10::ProcessJsonAsync - expected 2nd argument to be function").ToLocalChecked());
+  }
+
+  Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
+  Nan::JSON NanJSON;
+  Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(info[0]->ToObject());
+
+  JsonWorker* newWorker = new JsonWorker(
+      self,
+      v8s2ws(task.ToLocalChecked()),
+      new Nan::Callback(info[1].As<v8::Function>()),
+      Fptr10::workerFinished
+    );
+
+  if (self->jsonAsyncTaskIsRunning) {
+    self->taskQueue.push_back(newWorker);
+  } else {
+    self->jsonAsyncTaskIsRunning = true;
+    Nan::AsyncQueueWorker(newWorker);
+  }
+
+//  Nan::AsyncQueueWorker(new JsonWorker(
+//    self,
+//    v8s2ws(task.ToLocalChecked()),
+//    new Nan::Callback(info[1].As<v8::Function>())
+//  ));
+
+  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 NAN_METHOD(Fptr10::FnReport){
@@ -242,3 +289,12 @@ NAN_METHOD(Fptr10::FindLastDocument){
   info.GetReturnValue().Set(result);
 }
 
+void Fptr10::workerFinished(Fptr10* self) {
+  if (self->taskQueue.empty()) {
+    self->jsonAsyncTaskIsRunning = false;
+  } else {
+    JsonWorker* nextWorker = self->taskQueue.front();
+    self->taskQueue.pop_front();
+    Nan::AsyncQueueWorker(nextWorker);
+  }
+}
