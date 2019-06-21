@@ -51,7 +51,7 @@ Node.js обертка для драйвера торгового оборудо
 }
 ```
 Более подробную информацию по видам json-задании можно получить из документации к [ДТО 10](http://integration.atol.ru/)
-* `processJsonAsync(task, callback)`(от @maxvgi) - Выполнение JSON-задания асинхронно. 
+* `processJsonAsync(task, callback)`(от [@maxvgi](https://github.com/maxvgi/node-atol-wrapper)) - Выполнение JSON-задания асинхронно. 
 После завершения вызывает функцию callback в порядке error-first. 
 Вызывать функцию `close()` необходимо только после завершения всех асинхронных заданий.
 #### Обработка ошибок
