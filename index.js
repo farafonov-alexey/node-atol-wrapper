@@ -36,12 +36,12 @@ console.log('findLastDocument', fptr.findLastDocument());
 //         }
 //     ]
 // }));
-console.log('closeShift', fptr.processJson({
-    type: 'closeShift',
-    operator: {
-        name: 'Иванов',
-        vatin: '123654789507'
-    }
-}));
+// console.log('closeShift', fptr.processJson({
+//     type: 'closeShift',
+//     operator: {
+//         name: 'Иванов',
+//         vatin: '123654789507'
+//     }
+// }));
 console.log('close', fptr.close());
 fptr.destroy();
