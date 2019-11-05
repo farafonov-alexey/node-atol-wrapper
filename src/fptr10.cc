@@ -3,6 +3,8 @@
 #include "utils.h"
 #include "libfptr10.h"
 
+using namespace v8;
+
 Nan::Persistent<v8::FunctionTemplate> Fptr10::constructor;
 
 NAN_MODULE_INIT(Fptr10::Init) {
