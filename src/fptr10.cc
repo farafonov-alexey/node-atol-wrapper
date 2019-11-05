@@ -28,7 +28,8 @@ NAN_MODULE_INIT(Fptr10::Init) {
   Nan::SetPrototypeMethod(ctor, "fnReport", FnReport);
   Nan::SetPrototypeMethod(ctor, "findLastDocument", FindLastDocument);
 
-  target->Set(Nan::New("Fptr10").ToLocalChecked(), ctor->GetFunction());
+//  target->Set(Nan::New("Fptr10").ToLocalChecked(), ctor->GetFunction());
+  Nan::Set(target, Nan::New("Fptr10").ToLocalChecked(), Nan::GetFunction(ctor).ToLocalChecked());
 }
 
 NAN_METHOD(Fptr10::New) {
@@ -161,7 +162,7 @@ NAN_METHOD(Fptr10::ProcessJson){
 
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
   Nan::JSON NanJSON;
-  Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(info[0]->ToObject());
+  Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(Nan::To<Object>(info[0]).ToLocalChecked());
   if (!task.IsEmpty()) {
       std::wstring wSett = v8s2ws(task.ToLocalChecked());
       libfptr_set_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &wSett[0]);
@@ -210,7 +211,7 @@ NAN_METHOD(Fptr10::ProcessJsonAsync){
 
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
   Nan::JSON NanJSON;
-  Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(info[0]->ToObject());
+  Nan::MaybeLocal<v8::String> task = NanJSON.Stringify(Nan::To<Object>(info[0]).ToLocalChecked());
 
   JsonWorker* newWorker = new JsonWorker(
       self,
