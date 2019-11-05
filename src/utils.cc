@@ -32,7 +32,8 @@ bool checkErrorString(libfptr_handle fptr, int res, int &errorCode, std::string 
 
 v8::Local<v8::Value> errorStringToErrorObject(int errorCode, const std::string& errorDescription) {
     std::string errorString = "Error "+ std::to_string(errorCode) +" [ " + errorDescription + " ]";
-    v8::Local<v8::Object> errObj = Nan::To<v8::Object>(Nan::Error(Nan::New(errorString).ToLocalChecked()));
+    v8::Local<v8::Object> errObj =
+        Nan::To<v8::Object>(Nan::Error(Nan::New(errorString).ToLocalChecked())).ToLocalChecked();
     Nan::Set(errObj, Nan::New("code").ToLocalChecked(), Nan::New(errorCode));
     Nan::Set(errObj, Nan::New("description").ToLocalChecked(), Nan::New(errorDescription).ToLocalChecked());
     return (v8::Local<v8::Value>)errObj;
