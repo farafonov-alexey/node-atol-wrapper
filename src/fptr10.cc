@@ -64,7 +64,7 @@ NAN_SETTER(Fptr10::HandleSetters) {
   }
   std::string propertyName = std::string(*Nan::Utf8String(property));
   if (propertyName == "x") {
-    self->x = value->NumberValue();
+    self->x = value->NumberValue(Nan::GetCurrentContext()).ToChecked();
   }
 }
 
