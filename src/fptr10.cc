@@ -112,7 +112,7 @@ NAN_METHOD(Fptr10::SetSettings) {
   }
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
   Nan::JSON NanJSON;
-  Nan::MaybeLocal<v8::String> result = NanJSON.Stringify(Nan::To<Object>(info[0]));
+  Nan::MaybeLocal<v8::String> result = NanJSON.Stringify(Nan::To<Object>(info[0]).ToLocalChecked());
   if (!result.IsEmpty()) {
     std::wstring wSett = v8s2ws(result.ToLocalChecked());
     v8::Local<v8::Value> error;
