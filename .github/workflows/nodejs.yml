@@ -19,7 +19,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build
       run: |
-        npm install -g node-gyp
+        python --version
+        npm config set msvs_version 2017
         npm install --build-from-source
       env:
         CI: true
