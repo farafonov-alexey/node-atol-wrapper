@@ -4,8 +4,9 @@ console.log(fptr);
 fptr.create();
 const settings = fptr.getSettings();
 console.log('getSettings', settings);
-settings.Port = 0; //ComPort communication
-settings.ComFile = '/dev/ttyACM0'; //ComPort name
+settings.Port = 0;  // ComPort communication
+// settings.ComFile = '/dev/ttyACM0'; //ComPort name
+settings.ComFile = 'COM4';  // ComPort name
 settings.BaudRate = 115200;
 console.log('setSettings', fptr.setSettings(settings));
 console.log('isOpened', fptr.isOpened());
@@ -45,25 +46,20 @@ console.log('findLastDocument', fptr.findLastDocument());
 //     }
 // }));
 
-fptr.processJsonAsync({
-    type: 'reportX',
-    operator: {
-        name: 'Иванов',
-        vatin: '123654789507'
-    }
-}, (err, result) => {
-    if (err) {
+fptr.processJsonAsync(
+    {type: 'reportX', operator: {name: 'Иванов', vatin: '123654789507'}},
+    (err, result) => {
+      if (err) {
         throw err;
-    } else {
+      } else {
         console.log('reportX', result);
         fptr.processJsonAsync({type: 'getDeviceStatus'}, (err, result) => {
-            if(err){
-                throw err;
-            } else {
-                console.log('getDeviceStatus', result);
-                console.log('close', fptr.close());
-            }
+          if (err) {
+            throw err;
+          } else {
+            console.log('getDeviceStatus', result);
+            console.log('close', fptr.close());
+          }
         })
-    }
-});
-
+      }
+    });
