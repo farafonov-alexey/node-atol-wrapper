@@ -48,7 +48,9 @@
                  ]
                }],
                ["OS=='mac'", {
-                  'files': [],
+                 'files': [
+                   "<(module_root_dir)/src/macos-x86_64/fptr10.framework"
+                 ]
                }],
              ],
           }
@@ -82,12 +84,12 @@
       	  },
       	}],
       	["OS=='mac'", {
-          "sources!": [
-            "src/index.cc",
-            "src/fptr10.cc",
-            "src/utils.cc",
-            "src/json_worker.cc"
-          ],
+          "link_settings": {
+            "libraries": [
+              "<(module_root_dir)/build/Release/fptr10.framework/Versions/A/fptr10",
+              "-Wl,-rpath,@loader_path",
+            ],
+          },
         }]
       ],
       "dependencies" : [ "copy_fptr_libs" ],
