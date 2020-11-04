@@ -3,6 +3,7 @@
   "description": "Node ATOL DTO 10 wrapper",
   "version": "0.0.18",
   "main": "bindings.js",
+  "types": "bindings.d.ts",
   "scripts": {
     "build": "node-gyp build",
     "install": "node-gyp rebuild",
