@@ -14,7 +14,7 @@ JsonWorker::JsonWorker(Fptr10* fptr10, std::wstring task, Nan::Callback *callbac
             return;
           }
           std::vector<wchar_t> result(256);
-          int size = libfptr_get_param_str(fptr10_->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
+          std::string::size_type size = libfptr_get_param_str(fptr10_->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
           if (size > result.size())
           {
             result.resize(size);

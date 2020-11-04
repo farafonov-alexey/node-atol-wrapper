@@ -86,7 +86,7 @@ NAN_METHOD(Fptr10::Destroy) {
 NAN_METHOD(Fptr10::GetSettings) {
   Fptr10* self = Nan::ObjectWrap::Unwrap<Fptr10>(info.This());
   std::vector<wchar_t> settings(1024);
-  int size = libfptr_get_settings(self->fptr, &settings[0], settings.size());
+  std::string::size_type size = libfptr_get_settings(self->fptr, &settings[0], settings.size());
   if (size > settings.size())
   {
       settings.resize(size);
@@ -171,7 +171,7 @@ NAN_METHOD(Fptr10::ProcessJson){
          return Nan::ThrowError(error);
       }
       std::vector<wchar_t> result(256);
-      int size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
+      std::string::size_type size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_JSON_DATA, &result[0], result.size());
       if (size > result.size())
       {
         result.resize(size);
@@ -267,7 +267,7 @@ NAN_METHOD(Fptr10::FindLastDocument){
   int documentNumber = libfptr_get_param_int(self->fptr, LIBFPTR_PARAM_DOCUMENT_NUMBER);
 
   std::vector<wchar_t> str(1024);
-  int size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_FISCAL_SIGN, &str[0], str.size());
+  std::string::size_type size = libfptr_get_param_str(self->fptr, LIBFPTR_PARAM_FISCAL_SIGN, &str[0], str.size());
   if (size > str.size())
   {
       str.resize(size);

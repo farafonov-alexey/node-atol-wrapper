@@ -19,7 +19,7 @@ bool checkErrorString(libfptr_handle fptr, int res, int &errorCode, std::string 
     errorCode = libfptr_error_code(fptr);
 
     std::vector<wchar_t> errorDescription(32);
-    int size = libfptr_error_description(fptr, &errorDescription[0], errorDescription.size());
+    std::string::size_type size = libfptr_error_description(fptr, &errorDescription[0], errorDescription.size());
     if (size > errorDescription.size())
     {
      errorDescription.resize(size);
