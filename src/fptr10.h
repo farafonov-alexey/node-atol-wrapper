@@ -1,7 +1,11 @@
 #ifndef INCLUDE_Fptr10
 #define INCLUDE_Fptr10
 
+#include "wcast_disable.h"
+
+DISABLE_WCAST_FUNCTION_TYPE
 #include <nan.h>
+DISABLE_WCAST_FUNCTION_TYPE_END
 #include <vector>
 #include "json_worker.h"
 #include "libfptr10.h"

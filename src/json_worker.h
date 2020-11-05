@@ -1,8 +1,12 @@
 #ifndef INCLUDE_JSON_ASYNC_WORKER
 #define INCLUDE_JSON_ASYNC_WORKER
 
+#include "wcast_disable.h"
+
 #include <string>
+DISABLE_WCAST_FUNCTION_TYPE
 #include <nan.h>
+DISABLE_WCAST_FUNCTION_TYPE_END
 #include "fptr10.h"
 
 class Fptr10;
