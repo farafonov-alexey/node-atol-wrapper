@@ -38,13 +38,13 @@ export interface LastDocument {
 }
 export interface DeviceInfo {
     configurationVersion: string;
-    ffdVersion: string;
-    firmwareVersion: string;
+    ecrFfdVersion: string;
     fnFfdVersion: string;
+    firmwareVersion: string;
     model: number;
     modelName: string;
     receiptLineLength: number;
-    receiptLineLengthPix: number;
+    receiptLineLengthPx: number;
     serial: string;
 }
 export declare class Fptr10 {
