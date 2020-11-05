@@ -10,7 +10,7 @@
     "start": "node ./index.js"
   },
   "dependencies": {
-    "nan": "^2.14.0",
+    "nan": "^2.14.2",
     "node-pre-gyp": "^0.10.3"
   },
   "devDependencies": {},
