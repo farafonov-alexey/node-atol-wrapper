@@ -36,6 +36,17 @@ export interface LastDocument {
         second: number;
     };
 }
+export interface DeviceInfo {
+    configurationVersion: string;
+    ffdVersion: string;
+    firmwareVersion: string;
+    fnFfdVersion: string;
+    model: number;
+    modelName: string;
+    receiptLineLength: number;
+    receiptLineLengthPix: number;
+    serial: string;
+}
 export declare class Fptr10 {
     create(): void;
     isOpened(): boolean;
