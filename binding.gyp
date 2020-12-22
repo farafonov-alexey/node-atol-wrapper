@@ -47,9 +47,9 @@
                     }],
                     ["arch=='arm'", {
                       'files': [
-                        '<(module_root_dir)/src/linux-arm64/libfptr10.so',
-                        '<(module_root_dir)/src/linux-arm64/libudev.so.1',
-                        '<(module_root_dir)/src/linux-arm64/libusb-1.0.so.0',
+                        '<(module_root_dir)/src/linux-armhf/libfptr10.so',
+                        '<(module_root_dir)/src/linux-armhf/libudev.so.1',
+                        '<(module_root_dir)/src/linux-armhf/libusb-1.0.so.0',
                       ],
                     }]
                  ]
