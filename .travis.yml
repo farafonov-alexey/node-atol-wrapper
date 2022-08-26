@@ -31,6 +31,8 @@ matrix:
       env: NODE_VERSION="18"
 
 before_install:
+  - apt-get update
+  - apt-get install python3
   - source ./scripts/install_node.sh ${NODE_VERSION}
   - gcc --version
 
