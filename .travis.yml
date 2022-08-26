@@ -21,23 +21,29 @@ matrix:
     # Linux
     - os: linux
       compiler: gcc
-      env: NODE_VERSION="8"
+      env: NODE_VERSION="14"
     - os: linux
       compiler: gcc
-      env: NODE_VERSION="12"
+      env: NODE_VERSION="16"
+    - os: linux
+      compiler: gcc
+      env: NODE_VERSION="18"
     # OS X
     - os: osx
       compiler: gcc
-      env: NODE_VERSION="8"
+      env: NODE_VERSION="14"
     - os: osx
       compiler: gcc
-      env: NODE_VERSION="12"
+      env: NODE_VERSION="16"
+    - os: osx
+      compiler: gcc
+      env: NODE_VERSION="18"
 
 before_install:
   - source ./scripts/install_node.sh ${NODE_VERSION}
   - if [[ $(uname -s) == 'Linux' ]]; then
-      sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-6 /usr/bin/gcc;
-      sudo unlink /usr/bin/g++ && sudo ln -s /usr/bin/g++-6 /usr/bin/g++;
+    sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-6 /usr/bin/gcc;
+    sudo unlink /usr/bin/g++ && sudo ln -s /usr/bin/g++-6 /usr/bin/g++;
     fi;
   - gcc --version
 
