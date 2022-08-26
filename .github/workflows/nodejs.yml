@@ -16,7 +16,7 @@ jobs:
       - name: Choco install visualstudio2015community
         uses: crazy-max/ghaction-chocolatey@v2
         with:
-          args: install visualstudio2017community -y
+          args: install visualstudio2015community -y
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
