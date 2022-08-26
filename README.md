@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/farafonov-alexey/node-atol-wrapper.svg?branch=master)](https://travis-ci.com/farafonov-alexey/node-atol-wrapper)
+[![Build Status](https://travis-ci.com/farafonov-alexey/node-atol-wrapper.svg?branch=master)](https://app.travis-ci.com/farafonov-alexey/node-atol-wrapper)
 
 Название
 =========
