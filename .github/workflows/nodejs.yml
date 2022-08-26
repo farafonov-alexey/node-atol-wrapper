@@ -18,10 +18,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install, build
         run: |
-          # npm --vs2015 install --global windows-build-tools
-          # python --version
-          # npm config set python python2.7
-          # npm config set msvs_version 2015
+          python --version
           npm install --build-from-source
         env:
           CI: true
