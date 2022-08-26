@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: [windows-latest]
+    runs-on: [windows-2019]
 
     strategy:
       matrix:
@@ -16,14 +16,13 @@ jobs:
       - name: Choco install
         uses: crazy-max/ghaction-chocolatey@v2
         with:
-          args: install python visualcpp-build-tools -y
+          args: install visualcpp-build-tools -y
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm install, build
         run: |
-          npm install -g node-gyp
           npm install --build-from-source
         env:
           CI: true
