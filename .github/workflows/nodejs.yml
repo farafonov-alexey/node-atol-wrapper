@@ -13,18 +13,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Choco install visualstudio2019community
+      - name: Choco install
         uses: crazy-max/ghaction-chocolatey@v2
         with:
-          args: install visualstudio2019community -y
+          args: install python visualcpp-build-tools -y
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
       - name: npm install, build
         run: |
           python --version
+          npm config set msvs_version 2017
           npm install --build-from-source
         env:
           CI: true
