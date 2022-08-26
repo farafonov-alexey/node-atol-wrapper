@@ -8,20 +8,20 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [12, 14, 16]
 
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm install, build
         run: |
-          npm --vs2015 install --global windows-build-tools
-          python --version
-          npm config set python python2.7
-          npm config set msvs_version 2015
+          # npm --vs2015 install --global windows-build-tools
+          # python --version
+          # npm config set python python2.7
+          # npm config set msvs_version 2015
           npm install --build-from-source
         env:
           CI: true

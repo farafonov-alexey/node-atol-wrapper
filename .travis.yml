@@ -12,23 +12,23 @@ matrix:
     # Linux
     - os: linux
       compiler: gcc
+      env: NODE_VERSION="12"
+    - os: linux
+      compiler: gcc
       env: NODE_VERSION="14"
     - os: linux
       compiler: gcc
       env: NODE_VERSION="16"
-    - os: linux
-      compiler: gcc
-      env: NODE_VERSION="18"
     # OS X
     - os: osx
       compiler: gcc
+      env: NODE_VERSION="12"
+    - os: osx
+      compiler: gcc
       env: NODE_VERSION="14"
     - os: osx
       compiler: gcc
       env: NODE_VERSION="16"
-    - os: osx
-      compiler: gcc
-      env: NODE_VERSION="18"
 
 before_install:
   - source ./scripts/install_node.sh ${NODE_VERSION}
