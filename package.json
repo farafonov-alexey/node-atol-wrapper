@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "nan": "^2.14.2",
-    "node-pre-gyp": "^0.10.3"
+    "@mapbox/node-pre-gyp": "^1.0.9"
   },
   "devDependencies": {},
   "binary": {
