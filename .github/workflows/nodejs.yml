@@ -13,10 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Choco install visualstudio2015community
+      - name: Choco install visualstudio2019community
         uses: crazy-max/ghaction-chocolatey@v2
         with:
-          args: install visualstudio2015community -y
+          args: install visualstudio2019community -y
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
