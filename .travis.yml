@@ -2,7 +2,7 @@ sudo: true
 
 language: generic
 
-#dist: precise
+dist: focal
 
 git:
   depth: 10
