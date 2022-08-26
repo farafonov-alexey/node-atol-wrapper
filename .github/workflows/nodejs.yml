@@ -11,11 +11,17 @@ jobs:
         node-version: [12, 14, 16]
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Choco install visualstudio2017community
+        uses: crazy-max/ghaction-chocolatey@v2
+        with:
+          args: install visualstudio2017community -y
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: npm install, build
         run: |
           python --version
