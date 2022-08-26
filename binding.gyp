@@ -1,6 +1,6 @@
 {
   "variables": {
-    'arch': '<!(node -e "console.log(process.arch)")'
+    'arch': '<(target_arch)'
   },
   "targets": [
     {
