@@ -1,7 +1,7 @@
 {
   "name": "node-atol-wrapper",
   "description": "Node ATOL DTO 10 wrapper",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "main": "bindings.js",
   "types": "bindings.d.ts",
   "scripts": {
