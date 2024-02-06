@@ -2,7 +2,7 @@
 
 Название
 =========
-Node.js обертка для драйвера торгового оборудования (ДТО) версии [10.9.3.1](http://fs.atol.ru/_layouts/15/atol.templates/Handlers/FileHandler.ashx?guid=9c00e55f-7cfe-4918-8702-8df7e5fca2ca&webUrl=) от компании [АТОЛ](https://www.atol.ru/)
+Node.js обертка для драйвера торгового оборудования (ДТО) версии [10.9.5.0](http://fs.atol.ru/_layouts/15/atol.templates/Handlers/FileHandler.ashx?guid=9c00e55f-7cfe-4918-8702-8df7e5fca2ca&webUrl=) от компании [АТОЛ](https://www.atol.ru/)
 
 [ Источник ](https://forum.atol.ru/lofiversion/index.php/t34345.html)
 
