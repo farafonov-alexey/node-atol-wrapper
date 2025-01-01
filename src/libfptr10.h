@@ -1092,6 +1092,10 @@ enum libfptr_tax_type
     LIBFPTR_TAX_VAT20,
     LIBFPTR_TAX_VAT120,
     LIBFPTR_TAX_INVALID,
+    LIBFPTR_TAX_VAT5,
+    LIBFPTR_TAX_VAT105,
+    LIBFPTR_TAX_VAT7,
+    LIBFPTR_TAX_VAT107
 };
 
 enum libfptr_external_device_type
