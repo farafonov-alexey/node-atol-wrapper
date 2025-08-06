@@ -15,10 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - if: matrix.os == 'windows-2022'
-        name: Choco install
-        uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: install visualcpp-build-tools -y
+        name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
