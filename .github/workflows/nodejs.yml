@@ -8,19 +8,19 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-2019, ubuntu-latest, macos-latest]
-        node-version: [12, 14, 16, 18]
+        os: [windows-2022, ubuntu-latest, macos-latest]
+        node-version: [16, 18, 20, 22]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - if: matrix.os == 'windows-2019'
+        uses: actions/checkout@v4
+      - if: matrix.os == 'windows-2022'
         name: Choco install
         uses: crazy-max/ghaction-chocolatey@v2
         with:
           args: install visualcpp-build-tools -y
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm install, build
