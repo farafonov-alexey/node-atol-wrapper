@@ -62,8 +62,17 @@
                  ]
                }],
                ["OS=='mac'", {
-                 'files': [
-                   "<(module_root_dir)/src/macos-x86_64/fptr10.framework"
+                 'conditions': [
+                   ["target_arch=='arm64'", {
+                     'files': [
+                       "<(module_root_dir)/src/macos-x86_64/fptr10.framework"
+                     ]
+                   }],
+                   ["target_arch=='x64'", {
+                     'files': [
+                       "<(module_root_dir)/src/macos-x86_64/fptr10.framework"
+                     ]
+                   }]
                  ]
                }],
              ],
@@ -100,10 +109,24 @@
       	["OS=='mac'", {
           "link_settings": {
             "libraries": [
-              "<(module_root_dir)/build/Release/fptr10.framework/Versions/A/fptr10",
-              "-Wl,-rpath,@loader_path",
+              "<(module_root_dir)/build/Release/fptr10.framework/Versions/A/fptr10"
             ],
+            "ldflags": [
+              "-Wl,-rpath,@loader_path",
+              "-framework", "CoreFoundation",
+              "-framework", "IOKit"
+            ]
           },
+          "xcode_settings": {
+            "OTHER_CPLUSPLUSFLAGS": [
+              "-std=c++17",
+              "-stdlib=libc++"
+            ],
+            "OTHER_LDFLAGS": [
+              "-stdlib=libc++"
+            ],
+            "MACOSX_DEPLOYMENT_TARGET": "10.15"
+          }
         }]
       ],
       "dependencies" : [ "copy_fptr_libs" ],

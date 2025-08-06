@@ -10,8 +10,8 @@
     "start": "node ./index.js"
   },
   "dependencies": {
-    "nan": "^2.14.2",
-    "@mapbox/node-pre-gyp": "^1.0.9"
+    "nan": "^2.20.0",
+    "@mapbox/node-pre-gyp": "^1.0.11"
   },
   "devDependencies": {},
   "binary": {
@@ -20,7 +20,7 @@
     "host": "https://your_module.s3-us-west-1.amazonaws.com"
   },
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 16.0.0"
   },
   "homepage": "https://github.com/farafonov-alexey/node-atol-wrapper",
   "keywords": [

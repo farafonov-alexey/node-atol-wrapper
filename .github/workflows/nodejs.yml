@@ -7,9 +7,14 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
-        os: [windows-2022, ubuntu-latest, macos-latest]
+        os: [windows-2022, ubuntu-latest, macos-13]
         node-version: [16, 18, 20, 22]
+        exclude:
+          # Exclude Node 22 on macOS 13 due to compatibility issues
+          - os: macos-13
+            node-version: 22
 
     steps:
       - name: Checkout
@@ -17,12 +22,23 @@ jobs:
       - if: matrix.os == 'windows-2022'
         name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
+      - if: matrix.os == 'windows-2022'
+        name: Setup Windows SDK
+        uses: GuillaumeFalourd/setup-windows10-sdk-action@v1.11
+        with:
+          sdk-version: 20348
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Configure npm for native modules
+        if: matrix.os == 'macos-13'
+        run: |
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
       - name: npm install, build
         run: |
           npm install --build-from-source
         env:
           CI: true
+          npm_config_build_from_source: true
