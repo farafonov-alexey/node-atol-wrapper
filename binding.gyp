@@ -63,11 +63,6 @@
                }],
                ["OS=='mac'", {
                  'conditions': [
-                   ["target_arch=='arm64'", {
-                     'files': [
-                       "<(module_root_dir)/src/macos-x86_64/fptr10.framework"
-                     ]
-                   }],
                    ["target_arch=='x64'", {
                      'files': [
                        "<(module_root_dir)/src/macos-x86_64/fptr10.framework"
@@ -112,9 +107,7 @@
               "<(module_root_dir)/build/Release/fptr10.framework/Versions/A/fptr10"
             ],
             "ldflags": [
-              "-Wl,-rpath,@loader_path",
-              "-framework", "CoreFoundation",
-              "-framework", "IOKit"
+              "-Wl,-rpath,@loader_path"
             ]
           },
           "xcode_settings": {

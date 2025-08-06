@@ -31,11 +31,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Setup Python for macOS
+        if: matrix.os == 'macos-13'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install setuptools for macOS
+        if: matrix.os == 'macos-13'
+        run: |
+          python -m pip install --upgrade pip setuptools
       - name: Configure npm for native modules
         if: matrix.os == 'macos-13'
         run: |
           echo "CC=clang" >> $GITHUB_ENV
           echo "CXX=clang++" >> $GITHUB_ENV
+          echo "PYTHON=$(which python)" >> $GITHUB_ENV
       - name: npm install, build
         run: |
           npm install --build-from-source
