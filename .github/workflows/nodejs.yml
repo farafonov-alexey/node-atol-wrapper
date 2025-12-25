@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2022, ubuntu-latest, macos-14]
+        os: [windows-2022, ubuntu-latest, macos-15-intel]
         node-version: [18, 20, 22]
 
     steps:
@@ -28,16 +28,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Setup Python for macOS
-        if: matrix.os == 'macos-14'
+        if: startsWith(matrix.os, 'macos')
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       - name: Install setuptools for macOS
-        if: matrix.os == 'macos-14'
+        if: startsWith(matrix.os, 'macos')
         run: |
           python -m pip install --upgrade pip setuptools
       - name: Configure npm for native modules
-        if: matrix.os == 'macos-14'
+        if: startsWith(matrix.os, 'macos')
         run: |
           echo "CC=clang" >> $GITHUB_ENV
           echo "CXX=clang++" >> $GITHUB_ENV
