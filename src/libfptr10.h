@@ -906,6 +906,8 @@ enum libfptr_model
 
 #define LIBFPTR_SETTING_USE_COMMODITY_NAME_FOR_ADVANCE L"UseCommodityNameForAdvance"
 
+#define LIBFPTR_SETTING_GRPC_SERVER_PORT L"GrpcServerPort"
+
 enum libfptr_port
 {
     LIBFPTR_PORT_COM = 0,
