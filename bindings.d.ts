@@ -24,6 +24,7 @@ export interface Settings {
   UsbDevicePath: string
   UseDocumentsJournal: boolean
   UserPassword: string
+  GrpcServerPort: number
 }
 export interface LastDocument {
   documentNumber: number
