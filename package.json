@@ -1,12 +1,16 @@
 {
   "name": "node-atol-wrapper",
   "description": "Node ATOL DTO 10 wrapper",
-  "version": "0.0.28",
+  "version": "0.0.38",
   "main": "bindings.js",
   "types": "bindings.d.ts",
   "scripts": {
     "build": "node-gyp build",
+    "build:ia32": "node-gyp build --arch=ia32",
+    "build:x64": "node-gyp build --arch=x64",
     "install": "node-gyp rebuild",
+    "install:ia32": "node-gyp rebuild --arch=ia32",
+    "install:x64": "node-gyp rebuild --arch=x64",
     "start": "node ./index.js"
   },
   "dependencies": {
@@ -22,7 +26,7 @@
   "engines": {
     "node": ">= 16.0.0"
   },
-  "homepage": "https://github.com/farafonov-alexey/node-atol-wrapper",
+  "homepage": "https://github.com/testorio69/node-atol-wrapper",
   "keywords": [
     "Node.js",
     "wrapper",
@@ -31,15 +35,15 @@
   ],
   "author": {
     "name": "farafonov.alexey",
-    "url": "https://github.com/farafonov-alexey",
-    "email": "farafonov.alexey@gmail.com"
+    "url": "https://github.com/testorio69",
+    "email": "testorio69@gmail.com"
   },
   "contributors": [
     "maxvgi https://github.com/maxvgi"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/farafonov-alexey/node-atol-wrapper.git"
+    "url": "git://github.com/testorio69/node-atol-wrapper.git"
   },
   "license": "MIT"
 }

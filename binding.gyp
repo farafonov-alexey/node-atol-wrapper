@@ -18,6 +18,8 @@
                        '<(module_root_dir)/src/win-x86/fptr10.dll',
                        '<(module_root_dir)/src/win-x86/msvcp140.dll',
                        '<(module_root_dir)/src/win-x86/fptr10.lib',
+                       '<(module_root_dir)/src/win-x86/fptr10_bridge_grpc.dll',
+                       '<(module_root_dir)/src/win-x86/platform_bridge_grpc.dll',
                      ],
                    }],
                    ["arch=='x64'", {
@@ -25,6 +27,8 @@
                        '<(module_root_dir)/src/win-x64/fptr10.dll',
                        '<(module_root_dir)/src/win-x64/msvcp140.dll',
                        '<(module_root_dir)/src/win-x64/fptr10.lib',
+                       '<(module_root_dir)/src/win-x64/fptr10_bridge_grpc.dll',
+                       '<(module_root_dir)/src/win-x64/platform_bridge_grpc.dll',
                      ],
                    }]
                  ]
